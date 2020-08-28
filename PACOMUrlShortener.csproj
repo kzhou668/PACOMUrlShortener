@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\" />
     <Folder Include="Pages\Shared\" />
   </ItemGroup>
 

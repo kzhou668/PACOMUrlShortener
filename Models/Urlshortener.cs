@@ -30,5 +30,11 @@ namespace PACOMUrlShortener.Models
         public DateTime? ExpiredDateTime { get; set; }
         public int? Clicked { get; set; }
 
+        public UrlshortenerDTO(Urlshortener urlshortener)
+        {
+            Url = urlshortener.Url;
+            ExpiredDateTime = urlshortener.ExpiredDateTime;
+        }
+
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PACOMUrlShortener.Controllers;
 using PACOMUrlShortener.Models;
 
 namespace PACOMUrlShortener
@@ -32,6 +33,7 @@ namespace PACOMUrlShortener
 
             //
             services.AddDbContext<SqlDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PacomUrlShortener")));
+            services.AddScoped<UrlshortenersController, UrlshortenersController>();
 
             //
             services.AddRazorPages();

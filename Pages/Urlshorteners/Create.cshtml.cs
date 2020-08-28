@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using PACOMUrlShortener.Controllers;
 using PACOMUrlShortener.Models;
 
 namespace PACOMUrlShortener.Pages.Urlshorteners
@@ -12,10 +13,12 @@ namespace PACOMUrlShortener.Pages.Urlshorteners
     public class CreateModel : PageModel
     {
         private readonly PACOMUrlShortener.Models.SqlDBContext _context;
+        private readonly UrlshortenersController _shortener;
 
-        public CreateModel(PACOMUrlShortener.Models.SqlDBContext context)
+        public CreateModel(PACOMUrlShortener.Models.SqlDBContext context, UrlshortenersController shortener)
         {
             _context = context;
+            _shortener = shortener;
         }
 
         public IActionResult OnGet()
@@ -26,8 +29,6 @@ namespace PACOMUrlShortener.Pages.Urlshorteners
         [BindProperty]
         public Urlshortener Urlshortener { get; set; }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -35,10 +36,9 @@ namespace PACOMUrlShortener.Pages.Urlshorteners
                 return Page();
             }
 
-            _context.Urlshortener.Add(Urlshortener);
-            await _context.SaveChangesAsync();
+            var newItem = await _shortener.PostUrlshortener(new UrlshortenerDTO(Urlshortener));
 
-            return RedirectToPage("./Index");
+            return Redirect("./Edit?id=" + ((Urlshortener)((ObjectResult)newItem.Result).Value).AutoId);
         }
     }
 }

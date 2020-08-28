@@ -94,17 +94,27 @@ namespace PACOMUrlShortener.Controllers
         public async Task<ActionResult<Urlshortener>> PostUrlshortener(UrlshortenerDTO urlshortener)
         {
             const string splittor = @"://";
+
+            //
+            string newToken = GenerateToken();
+            while (_context.Urlshortener.FirstOrDefault<Urlshortener>(u => u.Token.Equals(newToken)) != null)
+            {
+                newToken = GenerateToken();
+            }
+
             //
             Urlshortener newItem = new Urlshortener();
+            newItem.Url = urlshortener.Url;
             newItem.CreatedTimeStamp = DateTime.Now;
             newItem.ExpiredDateTime = urlshortener.ExpiredDateTime;
-            newItem.Url = urlshortener.Url;
-            newItem.Token = GenerateToken();
-            int i = newItem.Url.IndexOf(splittor);
-            if (i != -1)
-                newItem.ShortUrl = newItem.Url.Split(splittor)[0] + splittor + newItem.Token;
-            else
-                newItem.ShortUrl = @"http://" + newItem.Token;
+            newItem.Token = newToken;
+
+            //
+            int i = urlshortener.Url.IndexOf(splittor);
+            if (i == -1)
+                newItem.Url = @"http://" + newItem.Url;
+
+            newItem.ShortUrl = newItem.Url.Split(splittor)[0] + splittor + newItem.Token;
 
             //
             _context.Urlshortener.Add(newItem);
@@ -133,11 +143,36 @@ namespace PACOMUrlShortener.Controllers
         public async Task<ActionResult<Urlshortener>> UrlRedirect([FromRoute] string token)
         {
             Urlshortener shortener = await _context.Urlshortener.FirstOrDefaultAsync<Urlshortener>(u => u.Token.Equals(token));
+
             if (shortener != null)
-                return Redirect(shortener.Url);
+            {
+                if (shortener.ExpiredDateTime == null || shortener.ExpiredDateTime > DateTime.Now)
+                {
+                    //
+                    if (shortener.Clicked == null)
+                        shortener.Clicked = 0;
+
+                    //
+                    shortener.Clicked += 1;
+                    _context.Attach(shortener).State = EntityState.Modified;
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        return new JsonResult("500 Internal Server Error.");
+                    }
+
+                    return Redirect(shortener.Url);
+                }
+                else
+                    return new JsonResult(token + " has expired."); 
+            }
             else
+            {
                 return NotFound();
-                //return new JsonResult(token + " does not exist."); 
+            }
         }
 
         private bool UrlshortenerExists(long id)
@@ -154,7 +189,6 @@ namespace PACOMUrlShortener.Controllers
         //
         private string GenerateToken(int repeater = 3)
         {
-            //string urlsafe = "0123456789_ABCDEFGHIJKLMNOPQRSTUVWXYZ-abcdefghijklmnopqrstuvwxyz/";
             string urlChars = _config.GetValue<string>("UrlChars");
             //
             Random rdm = new Random();
