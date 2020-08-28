@@ -1,0 +1,56 @@
+﻿@page
+@model PACOMUrlShortener.Pages.Urlshorteners.CreateModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Urlshortener.Url" class="control-label"></label>
+                <input asp-for="Urlshortener.Url" class="form-control" />
+                <span asp-validation-for="Urlshortener.Url" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Urlshortener.ShortUrl" class="control-label"></label>
+                <input asp-for="Urlshortener.ShortUrl" class="form-control" />
+                <span asp-validation-for="Urlshortener.ShortUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Urlshortener.Token" class="control-label"></label>
+                <input asp-for="Urlshortener.Token" class="form-control" />
+                <span asp-validation-for="Urlshortener.Token" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Urlshortener.CreatedTimeStamp" class="control-label"></label>
+                <input asp-for="Urlshortener.CreatedTimeStamp" class="form-control" />
+                <span asp-validation-for="Urlshortener.CreatedTimeStamp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Urlshortener.ExpiredDateTime" class="control-label"></label>
+                <input asp-for="Urlshortener.ExpiredDateTime" class="form-control" />
+                <span asp-validation-for="Urlshortener.ExpiredDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Urlshortener.Clicked" class="control-label"></label>
+                <input asp-for="Urlshortener.Clicked" class="form-control" />
+                <span asp-validation-for="Urlshortener.Clicked" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

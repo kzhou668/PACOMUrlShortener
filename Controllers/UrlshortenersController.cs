@@ -93,13 +93,18 @@ namespace PACOMUrlShortener.Controllers
         [HttpPost]
         public async Task<ActionResult<Urlshortener>> PostUrlshortener(UrlshortenerDTO urlshortener)
         {
+            const string splittor = @"://";
             //
             Urlshortener newItem = new Urlshortener();
             newItem.CreatedTimeStamp = DateTime.Now;
             newItem.ExpiredDateTime = urlshortener.ExpiredDateTime;
             newItem.Url = urlshortener.Url;
             newItem.Token = GenerateToken();
-            newItem.ShortUrl = newItem.Url.Split(@"://")[0] + @"://" + newItem.Token;
+            int i = newItem.Url.IndexOf(splittor);
+            if (i != -1)
+                newItem.ShortUrl = newItem.Url.Split(splittor)[0] + splittor + newItem.Token;
+            else
+                newItem.ShortUrl = @"http://" + newItem.Token;
 
             //
             _context.Urlshortener.Add(newItem);
@@ -122,6 +127,17 @@ namespace PACOMUrlShortener.Controllers
             await _context.SaveChangesAsync();
 
             return urlshortener;
+        }
+
+        [HttpGet, Route("/api/redirect/{token}")]
+        public async Task<ActionResult<Urlshortener>> UrlRedirect([FromRoute] string token)
+        {
+            Urlshortener shortener = await _context.Urlshortener.FirstOrDefaultAsync<Urlshortener>(u => u.Token.Equals(token));
+            if (shortener != null)
+                return Redirect(shortener.Url);
+            else
+                return NotFound();
+                //return new JsonResult(token + " does not exist."); 
         }
 
         private bool UrlshortenerExists(long id)

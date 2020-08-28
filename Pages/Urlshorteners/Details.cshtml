@@ -1,0 +1,55 @@
+﻿@page
+@model PACOMUrlShortener.Pages.Urlshorteners.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Urlshortener</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.Url)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.Url)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.ShortUrl)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.ShortUrl)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.Token)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.Token)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.CreatedTimeStamp)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.CreatedTimeStamp)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.ExpiredDateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.ExpiredDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.Clicked)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.Clicked)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Urlshortener.AutoId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

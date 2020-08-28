@@ -1,0 +1,66 @@
+﻿@page
+@model PACOMUrlShortener.Pages.Urlshorteners.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Urlshortener[0].Url)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Urlshortener[0].ShortUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Urlshortener[0].Token)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Urlshortener[0].CreatedTimeStamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Urlshortener[0].ExpiredDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Urlshortener[0].Clicked)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Urlshortener) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Token)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedTimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpiredDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Clicked)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.AutoId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.AutoId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.AutoId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

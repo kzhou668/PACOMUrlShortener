@@ -1,0 +1,58 @@
+﻿@page
+@model PACOMUrlShortener.Pages.Urlshorteners.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Urlshortener</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.Url)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.Url)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.ShortUrl)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.ShortUrl)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.Token)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.Token)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.CreatedTimeStamp)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.CreatedTimeStamp)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.ExpiredDateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.ExpiredDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Urlshortener.Clicked)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Urlshortener.Clicked)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Urlshortener.AutoId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>
