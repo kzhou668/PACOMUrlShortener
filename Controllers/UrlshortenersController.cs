@@ -91,7 +91,7 @@ namespace PACOMUrlShortener.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Urlshortener>> PostUrlshortener(UrlshortenerDTO urlshortener)
+        public async Task<ActionResult<Urlshortener>> PostUrlshortener(Urlshortener urlshortener)
         {
             const string splittor = @"://";
 
@@ -219,12 +219,6 @@ namespace PACOMUrlShortener.Controllers
         private bool UrlshortenerExists(long id)
         {
             return _context.Urlshortener.Any(e => e.AutoId == id);
-        }
-
-        //
-        private string ConvertToShortURL(string longURL)
-        {
-            return "";
         }
 
         //
