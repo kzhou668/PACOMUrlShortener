@@ -228,7 +228,7 @@ namespace PACOMUrlShortener.Controllers
         }
 
         //
-        public string GenerateToken(int repeater = 2)
+        private string GenerateToken(int repeater = 2)
         {
             string urlChars = _config.GetValue<string>("UrlChars");
             //
