@@ -39,7 +39,7 @@ namespace PACOMUrlShortener.Pages.Urlshorteners
             var newItem = await _shortener.PostUrlshortener(new UrlshortenerDTO(Urlshortener));
 
             //return Redirect("./Edit?id=" + ((Urlshortener)((ObjectResult)newItem.Result).Value).AutoId);
-            return Redirect("./Index");
+            return Redirect("/");
         }
     }
 }
