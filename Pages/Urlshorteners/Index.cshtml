@@ -5,22 +5,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>URL List</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create" class="btn btn-primary btn-sm">Create New</a>
+    <a asp-page="Index" class="btn btn-primary btn-sm">Refesh</a>
 </p>
 <table class="table">
-    <thead>
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Urlshortener[0].Url)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Urlshortener[0].ShortUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Urlshortener[0].Token)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Urlshortener[0].CreatedTimeStamp)
@@ -41,10 +39,7 @@
                 @Html.DisplayFor(modelItem => item.Url)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ShortUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Token)
+                <a href="/api/redirect/@Html.DisplayFor(modelItem => item.Token)" target="_blank"> @Html.DisplayFor(modelItem => item.ShortUrl)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedTimeStamp)

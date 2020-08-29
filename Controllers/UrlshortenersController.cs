@@ -175,6 +175,47 @@ namespace PACOMUrlShortener.Controllers
             }
         }
 
+        [HttpGet, Route("/api/refresh/{id}")]
+        [Route("/refresh/{id}")]
+        public async Task<ActionResult<Urlshortener>> RefreshToken(long id)
+        {
+            const string splittor = @"://";
+
+            //
+            Urlshortener shortener = await _context.Urlshortener.FirstOrDefaultAsync<Urlshortener>(u => u.AutoId==id);
+
+            if (shortener != null)
+            {
+                //
+                string newToken = GenerateToken();
+                while (_context.Urlshortener.FirstOrDefault<Urlshortener>(u => u.Token.Equals(newToken)) != null)
+                {
+                    newToken = GenerateToken();
+                }
+
+                //
+                shortener.Token = newToken;
+
+                //
+                shortener.ShortUrl = shortener.Url.Split(splittor)[0] + splittor + shortener.Token;
+                _context.Attach(shortener).State = EntityState.Modified;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return new JsonResult("500 Internal Server Error.");
+                }
+
+                return Redirect("/Urlshorteners/Edit/?id=" + id);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         private bool UrlshortenerExists(long id)
         {
             return _context.Urlshortener.Any(e => e.AutoId == id);
@@ -187,7 +228,7 @@ namespace PACOMUrlShortener.Controllers
         }
 
         //
-        private string GenerateToken(int repeater = 3)
+        private string GenerateToken(int repeater = 2)
         {
             string urlChars = _config.GetValue<string>("UrlChars");
             //
