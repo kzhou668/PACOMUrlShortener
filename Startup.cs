@@ -35,7 +35,7 @@ namespace PACOMUrlShortener
             //
             services.AddCors();
 
-            // Register the Swagger generator
+            // Register the Swagger generator --kai
             services.AddSwaggerGen();
         }
 
