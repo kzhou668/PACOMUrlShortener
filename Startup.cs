@@ -36,7 +36,7 @@ namespace PACOMUrlShortener
             services.AddCors();
 
             // From others
-            // Register the Swagger generator - from test2 step 1.
+            // Register the Swagger generator - from test2.
             services.AddSwaggerGen();
         }
 
