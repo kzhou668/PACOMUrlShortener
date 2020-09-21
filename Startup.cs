@@ -35,8 +35,7 @@ namespace PACOMUrlShortener
             //
             services.AddCors();
 
-            // Register the Swagger generator local change 111 + 222 + 333 + 444. 
-            // Register the Swagger generator local change 111 + other 111 + other 222 + other 333 + other 444. 
+            // Register the Swagger generator local change 111
             services.AddSwaggerGen();
         }
 
